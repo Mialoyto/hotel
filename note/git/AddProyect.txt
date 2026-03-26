@@ -1,0 +1,23 @@
+Subir tu proyecto (Local a GitHub):
+Si ya tienes código en tu computadora, sigue estos comandos en la terminal dentro de tu carpeta:
+git init (Inicia el repositorio local).
+git add . (Prepara los archivos).
+git commit -m "Mi primer commit" (Confirma los cambios).
+git branch -M main (Nombra la rama principal como main).
+git remote add origin <URL_DE_TU_REPOSITORIO> (Conecta local con GitHub).
+git push -u origin main (Sube el código).
+
+-------------------------------------------------------------------------------
+1. Descargar y combinar cambios automáticamente 
+Si quieres traer los últimos cambios del servidor y aplicarlos de inmediato a tu rama actual, usa:
+git pull: Descarga los cambios y hace un merge (fusión) automático con tu rama local.
+git pull origin <nombre-de-rama>: Úsalo para traer cambios de una rama específica (por ejemplo, main o master). 
+
+2. Descargar cambios sin aplicarlos todavía 
+Si prefieres revisar qué hay de nuevo antes de integrarlo a tu código, usa:
+git fetch: Descarga la información del repositorio remoto pero no modifica tus archivos locales. Después de esto, puedes ver las diferencias o decidir cuándo hacer el merge.
+
+Acción 	Comando
+Bajar y fusionar	git pull
+Solo bajar (revisar)	git fetch
+Bajar rama específica	git pull origin <rama>

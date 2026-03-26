@@ -1,0 +1,9 @@
+
+RewriteEngine On
+RewriteBase /hotel/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+ErrorDocument 404 /hotel/errors/404.php
+ErrorDocument 500 /hotel/errors/500.php
