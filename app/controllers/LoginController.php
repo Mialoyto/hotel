@@ -85,10 +85,11 @@ class LoginController extends Controller
         if (password_verify($password, $claveEncriptada)) {
           $_SESSION['user'] = $datos['nombres'] . ' ' . $datos['apellido_paterno'] . ' ' . $datos['apellido_materno'];
           $_SESSION['rol_user'] = $datos['nombre_rol'];
+          $_SESSION['hotel_user'] = $datos['nombre_hotel'];
           $json['status'] = true;
           $json['message'] = 'Login exitoso';
           $json['redirect'] = '/home';
-          // $json['data'] = $datos;
+          $json['data'] = $datos;
           $response = json_encode($json);
           echo $response;
           return;

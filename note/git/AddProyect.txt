@@ -21,3 +21,4 @@ Acción 	Comando
 Bajar y fusionar	git pull
 Solo bajar (revisar)	git fetch
 Bajar rama específica	git pull origin <rama>
+F7cBYd5#1M7M
