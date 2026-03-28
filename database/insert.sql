@@ -31,11 +31,17 @@ INSERT INTO usuarios (id_persona, id_hotel, nombre_usuario, contrasenia) VALUES
 (2, 2, 'maria_recepcionista', '12345678'),
 (3, 3, 'carlos_gerente', '12345678');
 
+INSERT INTO usuarios (id_persona, id_hotel, nombre_usuario, contrasenia) VALUES
+(1, 1, 'juan_recepcionista', '12345678');
+
 /* DATOS DE LA TABLA USUARIOS-ROLES */
 INSERT INTO usuarios_roles (id_usuario, id_rol) VALUES
 (1, 1),
 (2, 2),
 (3, 3);
+
+INSERT INTO usuarios_roles (id_usuario, id_rol) VALUES
+(4, 2);
 
 
 -- CREAR UNA PERSONA

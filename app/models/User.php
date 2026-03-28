@@ -1,6 +1,6 @@
 <?php
 require_once 'Conexion.php';
-class Login extends Conexion
+class User extends Conexion
 {
     private $pdo;
 
@@ -9,17 +9,15 @@ class Login extends Conexion
         $this->pdo = $this->getConexion();
     }
 
-    public function authLogin($params = []): array
+    public function getUsers($id_hotel): array
     {
         try {
-            $stmt = 'CALL sp_usuario_login(?)';
+            $stmt = 'CALL sp_get_usuarios_roles(?)';
             $cmd = $this->pdo->prepare($stmt);
             $cmd->execute(
-                array(
-                    $params['usuario']
-                )
+              [$id_hotel]
             );
-            $response = $cmd->fetch(PDO::FETCH_ASSOC);
+            $response = $cmd->fetchAll(PDO::FETCH_ASSOC);
             if ($response === false) {
                 return [];
             } else {
@@ -30,3 +28,4 @@ class Login extends Conexion
         }
     }
 }
+

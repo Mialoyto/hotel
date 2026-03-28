@@ -86,10 +86,11 @@ class LoginController extends Controller
           $_SESSION['user'] = $datos['nombres'] . ' ' . $datos['apellido_paterno'] . ' ' . $datos['apellido_materno'];
           $_SESSION['rol_user'] = $datos['nombre_rol'];
           $_SESSION['hotel_user'] = $datos['nombre_hotel'];
+          $_SESSION['id_hotel'] = $datos['id_hotel'];
           $json['status'] = true;
           $json['message'] = 'Login exitoso';
           $json['redirect'] = '/home';
-          $json['data'] = $datos;
+          // $json['data'] = $datos;
           $response = json_encode($json);
           echo $response;
           return;

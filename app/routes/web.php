@@ -18,14 +18,10 @@ $router->get('/home', 'HomeController@index', 'LoginMiddleware');
 $router->get('/rooms', 'RoomsController@index', 'LoginMiddleware');
 $router->get('/rooms/reservas', 'RoomsController@reservas', 'LoginMiddleware'); // RUTA DE PRUEBA PARA MOSTRAR LAS HABITACIONES (CON MIDDLEWARE PERSONALIZADO)
 
-
+// RUTA PARA LISTAR USUARIOS (CON MIDDLEWARE DE AUTENTICACIÓN)
+$router->get('/users/getUser', 'UserController@getUsers', 'LoginMiddleware');
 
 
 // RUTA LOGOUT (CON MIDDLEWARE DE AUTENTICACIÓN, PARA CERRAR SESIÓN SOLO A USUARIOS AUTENTICADOS)
 $router->get('/logout', 'LoginController@logout', 'LoginMiddleware');
-
-
-// ? RUTAS DE PAGINA DE ERROR (ESTAS RUTAS SE PUEDEN USAR PARA MOSTRAR PÁGINAS DE ERROR PERSONALIZADAS, COMO 404, 500, ETC.)
-$router->get('/errors/404', 'ErrorController@error404');
-$router->get('/errors/500', 'ErrorController@error500');
 

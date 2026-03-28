@@ -67,24 +67,64 @@
                         <path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
                     </svg>
                     <!-- fin icono home -->
-                    <a href="<?= BASE_URL ?>/home" class="block py-2 hover:bg-slate-700 rounded">Inicio</a>
+                    <a href="<?= BASE_URL ?>/home" class="block py-2 px-1 hover:bg-slate-700 rounded">
+                        <span>Inicio</span>
+                    </a>
                 </li>
                 <!-- HABITACIONES -->
                 <li class="flex flex-row items-center gap-2">
+                    <!-- icono habitaciones -->
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
                         <path d="M40-200v-600h80v400h320v-320h320q66 0 113 47t47 113v360h-80v-120H120v120H40Zm155-275q-35-35-35-85t35-85q35-35 85-35t85 35q35 35 35 85t-35 85q-35 35-85 35t-85-35Zm325 75h320v-160q0-33-23.5-56.5T760-640H520v240ZM308.5-531.5Q320-543 320-560t-11.5-28.5Q297-600 280-600t-28.5 11.5Q240-577 240-560t11.5 28.5Q263-520 280-520t28.5-11.5ZM280-560Zm240-80v240-240Z" />
                     </svg>
-                    <a href="<?= BASE_URL ?>/rooms" class="block py-2 hover:bg-slate-700 rounded">Habitaciones</a>
+                    <a href="<?= BASE_URL ?>/rooms" class="block py-2 px-1 hover:bg-slate-700 rounded">
+                        <span>Habitaciones</span>
+                    </a>
                 </li>
                 <!-- USUARIOS -->
-                <li class="flex flex-row items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
-                        <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm146.5-204.5Q340-521 340-580t40.5-99.5Q421-720 480-720t99.5 40.5Q620-639 620-580t-40.5 99.5Q539-440 480-440t-99.5-40.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm100-95.5q47-15.5 86-44.5-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160q53 0 100-15.5ZM523-537q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm-43-43Zm0 360Z" />
-                    </svg>
-                    <a href="<?= BASE_URL ?>/users" class="block py-2 hover:bg-slate-700 rounded">Usuarios</a>
+                <li class="flex flex-col">
+                    <button id="btn-users" class="flex items-center justify-between w-full py-2 px-2 hover:bg-slate-700 rounded">
+                        <div class="flex items-center gap-2">
+                            <!-- icono usuarios -->
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+                                <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm146.5-204.5Q340-521 340-580t40.5-99.5Q421-720 480-720t99.5 40.5Q620-639 620-580t-40.5 99.5Q539-440 480-440t-99.5-40.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm100-95.5q47-15.5 86-44.5-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160q53 0 100-15.5ZM523-537q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm-43-43Zm0 360Z" />
+                            </svg>
+                            <!-- texto -->
+                            <span>Usuarios</span>
+                        </div>
+                        <!-- icono desplegar -->
+                        <svg id="arrow-users"
+                            class="transition-transform duration-500"
+                            xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e3e3e3">
+                            <path d="M480-360 280-560h400L480-360Z" />
+                        </svg>
+                    </button>
+
+                    <!-- menú desplegable -->
+                    <ul id="menu-users" class="flex flex-col ml-8 mt-1 gap-1 overflow-hidden max-h-0 transition-all duration-1500">
+                        <li>
+                            <a href="<?= BASE_URL ?>/users/getUser" class="block py-2 px-4 hover:bg-slate-600 rounded">Gestionar Usuarios</a>
+                        </li>
+                        <li>
+                            <a href="<?= BASE_URL ?>/users/create" class="block py-2 px-4 hover:bg-slate-600 rounded">Crear Usuario</a>
+                        </li>
+                        <li>
+                            <a href="<?= BASE_URL ?>/users/roles" class="block py-2 px-4 hover:bg-slate-600 rounded">Gestionar Roles</a>
+                        </li>
+                        <li>
+                            <a href="<?= BASE_URL ?>/users/roles/create" class="block py-2 px-4 hover:bg-slate-600 rounded">Crear Rol</a>
+                        </li>
+                        <li>
+                            <a href="<?= BASE_URL ?>/users/permissions" class="block py-2 px-4 hover:bg-slate-600 rounded">Gestionar Permisos</a>
+                        </li>
+                        <li>
+                            <a href="<?= BASE_URL ?>/users/permissions/create" class="block py-2 px-4 hover:bg-slate-600 rounded">Crear Permiso</a>
+                        </li>
+                        <li>
+                            <a href="<?= BASE_URL ?>/users/assign" class="block py-2 px-4 hover:bg-slate-600 rounded">Asignar Roles y Permisos</a>
+                        </li>
+                    </ul>
                 </li>
-
-
             </ul>
         </main>
         <footer class="p-4 border-t border-gray-700">

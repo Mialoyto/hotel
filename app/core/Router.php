@@ -108,7 +108,8 @@ class Router {
 
         // SI NO EXISTE LA RUTA, MOSTRAMOS ERROR 404
         http_response_code(404);
-        echo "Archivo no encontrado: app/core/Router.php";
+        echo "404 Not Found: La ruta $uri no existe para el método $method.";
+        // echo "Archivo no encontrado: app/core/Router.php";
     }
 }
 
