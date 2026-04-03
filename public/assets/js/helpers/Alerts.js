@@ -29,5 +29,5 @@ function showAlert(message, type = 'success') {
 
     // Eliminar del DOM después de la animación
     setTimeout(() => alert.remove(), 300);
-  }, 15000);
+  }, 1500);
 }

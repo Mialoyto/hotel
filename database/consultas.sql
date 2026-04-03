@@ -19,6 +19,8 @@ UPDATE usuarios SET contrasenia = '$2y$10$BzOyF2sqcySr9mxR2oPl.OpwL5fRPd6.9aq1Ic
 UPDATE usuarios SET contrasenia = '$2y$10$BzOyF2sqcySr9mxR2oPl.OpwL5fRPd6.9aq1IcGFz5tvjTEFdZn7S'
     WHERE id_usuario = 4;
 
+UPDATE usuarios SET contrasenia = '$2y$10$a3YGysng3jWR3/eU8UIGcuUwZSSD5Y3UkDOb0iAItm/rxJ7W3uPbq';
+
 UPDATE usuarios SET estado = 1 WHERE id_usuario = 1;
 
 /********** PROCEDIMIENTOS ALMACENADOS **********/

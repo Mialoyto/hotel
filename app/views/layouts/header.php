@@ -7,6 +7,12 @@
     <title>Login</title>
     <link rel="icon" type="image/png" href='<?= BASE_URL ?>/assets/img/login.png'>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- para cargar tablas -->
+    <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator_modern.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+    <!-- necesario para descargar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 </head>
 
 <body class="min-h-screen flex flex-col bg-gradient-to-br from-slate-900 to-slate-900 ">
@@ -33,7 +39,7 @@
     <!-- FIN HEADER BOTONES -->
 
     <!-- PANEL LATERAL -->
-    <div id="sidebar" class="fixed top-0 left-[-260px] w-64 h-full bg-gray-800 text-white flex flex-col transition-all duration-300">
+    <div id="sidebar" class="fixed top-0 left-[-260px] w-64 h-full bg-gray-800 text-white flex flex-col transition-all duration-300 z-50">
         <header class="p-4 border-b border-gray-700">
             <div class="flex flex-row items-center justify-between mb-2">
                 <div>
@@ -81,6 +87,41 @@
                         <span>Habitaciones</span>
                     </a>
                 </li>
+                <!-- PERSONAS -->
+                <li class="flex flex-col">
+                    <button id="btn-person" class="flex items-center justify-between w-full py-2 px-2 hover:bg-slate-700 rounded">
+                        <div class="flex items-center gap-2">
+                            <!-- ICONO -->
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+                                <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z" />
+                            </svg>
+                            <span>Personas</span>
+                        </div>
+                        <!-- icono desplegar -->
+                        <svg id="arrow-person"
+                            class="transition-transform duration-500"
+                            xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e3e3e3">
+                            <path d="M480-360 280-560h400L480-360Z" />
+                        </svg>
+                    </button>
+
+                    <!-- menú desplegable -->
+                    <ul id="menu-person" class="flex flex-col ml-8 mt-1 gap-1 overflow-hidden max-h-0 transition-all duration-1500">
+                        <li>
+                            <a href="<?= BASE_URL ?>/addPerson" class="block py-2 px-4 hover:bg-slate-600 rounded">Registrar Persona</a>
+                        </li>
+                        <li>
+                            <a href="<?= BASE_URL ?>/employees" class="block py-2 px-4 hover:bg-slate-600 rounded">Empleados</a>
+                        </li>
+                        <li>
+                            <a href="<?= BASE_URL ?>/clients" class="block py-2 px-4 hover:bg-slate-600 rounded">Clientes</a>
+                        </li>
+
+                    </ul>
+
+
+                </li>
+                <!-- FIN MENÚ PERSONAS -->
                 <!-- USUARIOS -->
                 <li class="flex flex-col">
                     <button id="btn-users" class="flex items-center justify-between w-full py-2 px-2 hover:bg-slate-700 rounded">
@@ -125,6 +166,7 @@
                         </li>
                     </ul>
                 </li>
+                <!-- FIN MENÚ USUARIOS -->
             </ul>
         </main>
         <footer class="p-4 border-t border-gray-700">

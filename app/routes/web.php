@@ -19,7 +19,10 @@ $router->get('/rooms', 'RoomsController@index', 'LoginMiddleware');
 $router->get('/rooms/reservas', 'RoomsController@reservas', 'LoginMiddleware'); // RUTA DE PRUEBA PARA MOSTRAR LAS HABITACIONES (CON MIDDLEWARE PERSONALIZADO)
 
 // RUTA PARA LISTAR USUARIOS (CON MIDDLEWARE DE AUTENTICACIÓN)
-$router->get('/users/getUser', 'UserController@getUsers', 'LoginMiddleware');
+// MUESTRA LA VISTA DE GESTION DE USUARIOS
+$router->get('/users/getUser', 'UserController@viewListUser', 'LoginMiddleware');
+// CARGA LOS USUARIOS EN FORMATO JSON (CON MIDDLEWARE DE AUTENTICACIÓN)
+$router->get('/users/getUser/data', 'UserController@getUsers', 'LoginMiddleware');
 
 
 // RUTA LOGOUT (CON MIDDLEWARE DE AUTENTICACIÓN, PARA CERRAR SESIÓN SOLO A USUARIOS AUTENTICADOS)

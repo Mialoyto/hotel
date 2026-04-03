@@ -51,6 +51,7 @@ class LoginController extends Controller
     $json = [
       'status' => false,
       'message' => '',
+      'redirect' => ''
     ];
 
 
@@ -87,9 +88,11 @@ class LoginController extends Controller
           $_SESSION['rol_user'] = $datos['nombre_rol'];
           $_SESSION['hotel_user'] = $datos['nombre_hotel'];
           $_SESSION['id_hotel'] = $datos['id_hotel'];
+
           $json['status'] = true;
           $json['message'] = 'Login exitoso';
           $json['redirect'] = '/home';
+          // var_dump($_COOKIE);
           // $json['data'] = $datos;
           $response = json_encode($json);
           echo $response;

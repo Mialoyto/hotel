@@ -2,7 +2,16 @@
 // PASO 2: hotel/config/config.php (CONFIGURACIÓN DE LA APLICACIÓN)
 
 // 1. URL base del navegador (para generar enlaces y redirecciones)
-define('BASE_URL', "http://localhost/hotel/public");
+$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+// echo "Scheme: " . $scheme . "\n";
+// echo '<br>';
+// echo "Host: " . $host . "\n";
+// echo '<br>';
+// echo $_SERVER['HTTP_HOST'];
+// echo '<br>';
+define('BASE_URL', $scheme . '://' . $host . '/hotel/public');
+// echo "BASE_URL: " . BASE_URL . "\n";
 /* BASE_URL: http://localhost/hotel/public/ 
 BASE_URL es para el NAVEGADOR, es la URL base de la aplicación, se usa para generar enlaces y redirecciones. 
 */

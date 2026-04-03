@@ -18,24 +18,17 @@ document.addEventListener('DOMContentLoaded', function() {
         Sidebar.classList.add('left-[-100%]');
     });
 
-    // desplegar submenú
+    // desplegar submenú clientes
     const btnUsers = document.getElementById('btn-users');
     const subMenuUsers = document.getElementById('menu-users');
     const iconUsers = document.getElementById('arrow-users');
+    displaySubmenu(btnUsers, subMenuUsers, iconUsers);
 
-    btnUsers.addEventListener('click', function() {
-        if(subMenuUsers.classList.contains('max-h-0')) {
-            subMenuUsers.classList.remove('max-h-0');
-            subMenuUsers.classList.add('h-fit');
-            iconUsers.classList.add('rotate-180');
-            console.log("Submenú Usuarios abierto");
-        } else {
-            subMenuUsers.classList.add('max-h-0');
-            subMenuUsers.classList.remove('max-h-40');
-            iconUsers.classList.remove('rotate-180');
-            console.log("Submenú Usuarios cerrado");
-        }
-    });
+    // desplegar submenú personas
+    const btnPerson = document.getElementById('btn-person');
+    const subMenuPerson = document.getElementById('menu-person');
+    const iconPerson = document.getElementById('arrow-person');
+    displaySubmenu(btnPerson, subMenuPerson, iconPerson);
 
         // AÑO ACTUAL EN EL FOOTER
     let yearElement = document.getElementById('year');
