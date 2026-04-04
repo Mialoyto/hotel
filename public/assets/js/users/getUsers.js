@@ -183,13 +183,14 @@ document.addEventListener("DOMContentLoaded", function () {
     ajaxURL: `${BASE_URL}/users/getUser/data`,
     ajaxConfig: {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
     },
     ajaxResponse: function (url, params, response) {
       console.log("Respuesta del servidor:", response); // Verifica la respuesta completa del servidor
-      return response; // Devuelve solo el array de usuarios
+      return response.data; // Devuelve solo el array de usuarios
     },
     // data: tableData, // CARGA INICIAL DE DATOS VACÍA
     pagination: true,
@@ -270,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // 🔍 BUSCADOR PRO
-  document.getElementById("search").addEventListener("input", function () {
+  document.getElementById("search").addEventListener("input", function (e) {
     table.setFilter("nombre_usuario", "like", e.target.value);
   });
   // table.setData(null, { fromServer: true }); // ✓ Con config correcta

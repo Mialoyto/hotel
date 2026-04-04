@@ -29,3 +29,4 @@ define('APP_PATH', ROOT_PATH . '/app/');
 APP_PATH es la ruta absoluta al directorio de la aplicación, se usa para organizar el código 
 fuente de la aplicación, como controladores, modelos, vistas, etc.
 */
+

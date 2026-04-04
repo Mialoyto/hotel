@@ -11,7 +11,7 @@ require_once APP_PATH . 'views/layouts/header-login.php';
       <Main class="flex-1 flex items-center justify-center p-8 sm:p-8">
     <div class="bg-white rounded-lg p-8 sm:p-8 w-full max-w-md shadow-lg ">
       <h2 class="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h2>
-      <form action="<?= BASE_URL ?>/login" method="POST" id="loginForm" class="space-y-4">
+      <form method="POST" id="loginForm" class="space-y-4">
         <div>
           <label for="username" class="block text-sm font-medium text-gray-700">Usuario</label>
           <input type="text" name="username" id="username"  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">

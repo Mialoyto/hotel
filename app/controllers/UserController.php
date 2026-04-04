@@ -1,7 +1,10 @@
 <?php
 
 require_once APP_PATH . 'models/User.php';
-// header('Content-Type: application/json');
+/* PARA QUE  FUNCIONE  COMO API, DEBEMOS DEVOLVER RESPUESTAS EN JSON, NO VISTAS 
+O HTML, POR LO QUE NO USAREMOS $this->view() EN ESTE CONTROLADOR, SINO QUE 
+DEVOLVEREMOS RESPUESTAS JSON DIRECTAMENTE DESDE LOS MÉTODOS.  */
+
 
 class UserController extends Controller
 {
@@ -20,18 +23,34 @@ class UserController extends Controller
   // METODO PARA MOSTRAR LA VISTA DE USUARIOS
   public function getUsers()
   {
+    if(session_status() === PHP_SESSION_NONE){
+      session_start();
+    }
+    header('Content-Type: application/json');
+    $json = [
+      "status" => false,
+      "message" => "",
+      "data" => null
+    ];
     try {
-      $id_hotel = $_SESSION['id_hotel'] ?? null;
+      $id_hotel = $_SESSION['user']['id_hotel'] ?? null;
+      if(!$id_hotel){
+        http_response_code(400);
+        $json['message'] = "No se pudo obtener el hotel del usuario";
+        echo json_encode($json);
+        return;
+      }
 
       // OBTENEMOS LOS USUARIOS DEL HOTEL
       $users = $this->userModel->getUsers($id_hotel);
-
-      // MOSTRAMOS LA VISTA DE USUARIOS PASANDO LOS DATOS OBTENIDOS
-      // $this->view('users/getUser', ['users' => $users]);
-      header('Content-Type: application/json');
-      echo json_encode($users);
+      $json['status'] = true;
+      $json['message'] = "Usuarios obtenidos correctamente";  
+      $json['data'] = $users;
+      echo json_encode($json);
     } catch (Exception $e) {
-      echo json_encode(value: ['error' => $e->getMessage()]);
+      http_response_code(500);
+      $json['message'] = "Error al obtener los usuarios: " . $e->getMessage();
+      echo json_encode($json);
     }
   }
 }

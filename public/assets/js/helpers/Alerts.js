@@ -1,4 +1,4 @@
-function showAlert(message, type = 'success') {
+function showAlert(message, type = 'success', duration= 3000) {
   const colors = {
     success: 'bg-green-500',
     error: 'bg-red-500',
@@ -28,6 +28,6 @@ function showAlert(message, type = 'success') {
     alert.classList.add('translate-x-full', 'opacity-0');
 
     // Eliminar del DOM después de la animación
-    setTimeout(() => alert.remove(), 300);
-  }, 1500);
+    setTimeout(() => alert.remove(), 500);
+  }, duration);
 }

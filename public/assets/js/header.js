@@ -37,4 +37,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }else {
         console.warn("Elemento con id 'year' no encontrado en el DOM.");
     }
+
+      // LOGOUT
+  const logoutBtn = document.getElementById("btn-logout");
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        const response = await fetch(BASE_URL + "/logout", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        const data = await response.json();
+        if (data.status) {
+            showAlert(data.message, "success");
+          setTimeout(() => {
+            window.location.href = BASE_URL + data.redirect;
+          }, 1500);
+        } else {
+          showAlert(data.message, "error");
+          console.error("Logout error:", data.message);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de logout:", error);
+        showAlert(
+          "Error en la solicitud de logout. Por favor, inténtalo de nuevo.",
+          "error"
+        );
+      }
+    });
+  } else {
+    console.warn("Botón de logout no encontrado en el DOM.");
+  }
 });

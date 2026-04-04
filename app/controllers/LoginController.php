@@ -55,8 +55,10 @@ class LoginController extends Controller
     ];
 
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    // Soportamos credenciales enviadas como form-data o JSON.
+    $input = json_decode(file_get_contents('php://input'), true);
+    $username = $input['username'] ?? '';
+    $password = $input['password'] ?? '';
 
     if (empty($username) || empty($password)) {
       $json['status'] = false;
@@ -84,16 +86,18 @@ class LoginController extends Controller
         $claveEncriptada = $datos['password'];
 
         if (password_verify($password, $claveEncriptada)) {
-          $_SESSION['user'] = $datos['nombres'] . ' ' . $datos['apellido_paterno'] . ' ' . $datos['apellido_materno'];
-          $_SESSION['rol_user'] = $datos['nombre_rol'];
-          $_SESSION['hotel_user'] = $datos['nombre_hotel'];
-          $_SESSION['id_hotel'] = $datos['id_hotel'];
+
+          // Estructura única de sesión para todas las vistas/controladores.
+          $_SESSION['user'] = [
+            'nombre' => $datos['nombres'] . ' ' . $datos['apellido_paterno'] . ' ' . $datos['apellido_materno'],
+            'rol' => $datos['nombre_rol'],
+            'hotel' => $datos['nombre_hotel'],
+            'id_hotel' => $datos['id_hotel']
+          ];
 
           $json['status'] = true;
           $json['message'] = 'Login exitoso';
           $json['redirect'] = '/home';
-          // var_dump($_COOKIE);
-          // $json['data'] = $datos;
           $response = json_encode($json);
           echo $response;
           return;

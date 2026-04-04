@@ -4,7 +4,7 @@ USE `db_hotel`;
 /* Consultas para la base de datos db_hotel */
 SELECT * FROM usuarios;
 SELECT * FROM personas;
-
+-- 
 SELECT * FROM usuarios_roles;
 
 SELECT * FROM usuarios_roles;
