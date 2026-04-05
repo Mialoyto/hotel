@@ -9,22 +9,13 @@ SELECT * FROM usuarios_roles;
 
 SELECT * FROM usuarios_roles;
 
-UPDATE usuarios SET contrasenia = '$2y$10$BzOyF2sqcySr9mxR2oPl.OpwL5fRPd6.9aq1IcGFz5tvjTEFdZn7S',
-    nombre_usuario = 'admin' WHERE id_usuario = 1;
-UPDATE usuarios SET contrasenia = '$2y$10$BzOyF2sqcySr9mxR2oPl.OpwL5fRPd6.9aq1IcGFz5tvjTEFdZn7S'
-    WHERE id_usuario = 2;
-UPDATE usuarios SET contrasenia = '$2y$10$BzOyF2sqcySr9mxR2oPl.OpwL5fRPd6.9aq1IcGFz5tvjTEFdZn7S'
-    WHERE id_usuario = 3;
-
-UPDATE usuarios SET contrasenia = '$2y$10$BzOyF2sqcySr9mxR2oPl.OpwL5fRPd6.9aq1IcGFz5tvjTEFdZn7S'
-    WHERE id_usuario = 4;
-
 UPDATE usuarios SET contrasenia = '$2y$10$a3YGysng3jWR3/eU8UIGcuUwZSSD5Y3UkDOb0iAItm/rxJ7W3uPbq';
 
-UPDATE usuarios SET estado = 1 WHERE id_usuario = 1;
 
 /********** PROCEDIMIENTOS ALMACENADOS **********/
 
-CALL sp_usuario_login('admin');
+CALL sp_usuario_login('juan_administrador1');
 
 CALL sp_get_usuarios_roles(1);
+
+CALL sp_insertar_persona('Miguel', 'Loyola', 'Torres', '26558002', '', '');

@@ -18,9 +18,7 @@ CREATE TABLE personas (
     updated_at              TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     estado                  TINYINT(1) NOT NULL DEFAULT 1,
 
-    CONSTRAINT uk_dni UNIQUE(dni),
-    CONSTRAINT uk_email_persona UNIQUE(email)
-
+    CONSTRAINT uk_dni UNIQUE(dni)
 )ENGINE = INNODB;
 
 /* TABLA DE TIPO DE PLAN */

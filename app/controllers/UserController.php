@@ -32,6 +32,7 @@ class UserController extends Controller
       "message" => "",
       "data" => null
     ];
+    
     try {
       $id_hotel = $_SESSION['user']['id_hotel'] ?? null;
       if(!$id_hotel){

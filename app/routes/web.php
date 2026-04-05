@@ -6,7 +6,7 @@
 // !El Router convierte /hotel/public en '/', así que esta definición es obligatoria.
 
 // TODO: MODULO DE LOGIN Y AUTENTICACIÓN (CON SESIONES)
-// $router->get('/', 'LoginController@index');
+$router->get('/', 'LoginController@index');
 // RUTA LOGIN (SIN MIDDLEWARE, PARA MOSTRAR EL FORMULARIO DE LOGIN)
 // DEVUELVE LA VISTA HTML
 $router->get('/login', 'LoginController@index');
@@ -38,6 +38,7 @@ $router->get('/users/getUser/data', 'UserController@getUsers', 'LoginMiddleware'
 // SOLA LA VISTA HTML DE REGISTRO DE PERSONAS (CON MIDDLEWARE DE AUTENTICACIÓN)
 $router->get('/persona', 'PersonaController@viewAddPerson', 'LoginMiddleware');
 // RUTA PARA REGISTRAR PERSONAS (CON MIDDLEWARE DE AUTENTICACIÓN)
+$router->post('/persona/registrar', 'PersonaController@registrarPersona', 'LoginMiddleware'); // RUTA PARA REGISTRAR PERSONAS (CON MIDDLEWARE DE AUTENTICACIÓN)
 
 // TODO: CONSUMIR API DE DNI
 // RUTA PARA OBTENER INFO DE DNI (SIN MIDDLEWARE, PARA PROBAR DESDE POSTMAN O FRONTEND)
@@ -89,4 +90,4 @@ $router->get('/persona/dni', 'ApiDniController@getDniInfo','LoginMiddleware');
 
 
 // USERS API (PROTEGIDO)
-$router->get('/users', 'ApiUserController@getUsers', 'ApiAuthMiddleware');
+// $router->get('/users', 'ApiUserController@getUsers', 'ApiAuthMiddleware');
