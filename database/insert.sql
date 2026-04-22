@@ -1,12 +1,6 @@
 -- Active: 1772242849386@@127.0.0.1@3306@db_hotel
 USE db_hotel;
 
-/* DATOS DE LA TABLA PERSONAS */
-INSERT INTO personas (nombres, apellido_paterno, apellido_materno, dni, telefono, email) VALUES
-('Juan', 'Pérez', 'Gómez', '12345678', '987654321', 'juan.perez@gmail.com'),
-('María', 'López', 'Rodríguez', '87654321', '987654322', 'maria.lopez@gmail.com'),
-('Carlos', 'González', 'Martínez', '11223344', '987654323', 'carlos.gonzalez@gmail.com'),
-('Ana', 'Martínez', 'Sánchez', '73217990', '', '');
 
 /* DATOS DE LA TABLA PLANES */
 INSERT INTO planes (nombre_plan, descripcion_plan) VALUES
@@ -20,6 +14,13 @@ INSERT INTO hoteles (id_plan, nombre_comercial, razon_social, ruc, direccion, te
 (2, 'Hotel Luna', 'Hotel Luna S.A.', '12345678902', 'Av. Secundaria 456', '987654322', 'hotel.luna@gmail.com'),
 (3, 'Hotel Estrella', 'Hotel Estrella S.A.', '12345678903', 'Av. Tercera 789', '987654323', 'hotel.estrella@gmail.com'),
 (1, 'Hotel Sol 2', 'Hotel Sol 2 S.A.', '12345678904', 'Av. Principal 124', '987654324', 'hotel.sol2@gmail.com');
+
+/* DATOS DE LA TABLA PERSONAS */
+INSERT INTO personas (id_hotel, nombres, apellido_paterno, apellido_materno, dni, fecha_nacimiento, ubigeo, direccion, telefono, email) VALUES
+(1, 'Juan', 'Pérez', 'Gómez', '12345678', '2008-04-05', '110206', 'Av. Principal 123', '987654321', 'juan.perez@gmail.com'),
+(2, 'María', 'López', 'Rodríguez', '87654321', '1990-01-02', '110207', 'Av. Secundaria 456', '987654322', 'maria.lopez@gmail.com'),
+(3, 'Carlos', 'González', 'Martínez', '11223344', '1990-01-03', '110208', 'Av. Tercera 789', '987654323', 'carlos.gonzalez@gmail.com'),
+(4, 'Ana', 'Martínez', 'Sánchez', '11122233', '1990-01-04', '110209', 'Av. Cuarta 101', '987654324', 'ana.sanchez@gmail.com');
 
 /* DATOS DE LA TABLA ROLES */
 INSERT INTO roles (id_hotel, nombre_rol, descripcion_rol) VALUES

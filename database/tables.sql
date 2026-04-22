@@ -3,23 +3,6 @@ DROP DATABASE IF EXISTS `db_hotel`;
 CREATE DATABASE `db_hotel` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `db_hotel`;
 
-/* TABLA PERSONAS */
-DROP TABLE IF EXISTS personas;
-CREATE TABLE personas ( 
-    id_persona              INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    nombres                 VARCHAR(255) NOT NULL,
-    apellido_paterno        VARCHAR(255) NOT NULL,
-    apellido_materno        VARCHAR(255) NOT NULL,
-    dni                     CHAR(8) NOT NULL,
-    telefono                VARCHAR(20) DEFAULT NULL,
-    email                   VARCHAR(255) DEFAULT NULL,
-
-    created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at              TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-    estado                  TINYINT(1) NOT NULL DEFAULT 1,
-
-    CONSTRAINT uk_dni UNIQUE(dni)
-)ENGINE = INNODB;
 
 /* TABLA DE TIPO DE PLAN */
 DROP TABLE IF EXISTS planes;
@@ -56,6 +39,29 @@ CREATE TABLE hoteles (
     CONSTRAINT uk_ruc UNIQUE(ruc),
     CONSTRAINT uk_email UNIQUE(email)
 
+)ENGINE = INNODB;
+
+/* TABLA PERSONAS */
+DROP TABLE IF EXISTS personas;
+CREATE TABLE personas ( 
+    id_persona              INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_hotel                INT NOT NULL, -- Para manejar personas aisladas de un hotel específico
+    nombres                 VARCHAR(255) NOT NULL,
+    apellido_paterno        VARCHAR(255) NOT NULL,
+    apellido_materno        VARCHAR(255) NOT NULL,
+    dni                     CHAR(8) NOT NULL,
+    fecha_nacimiento        DATE NOT NULL,
+    ubigeo                  CHAR(6) NOT NULL,
+    direccion               VARCHAR(255) DEFAULT NULL,
+    telefono                VARCHAR(20) DEFAULT NULL,
+    email                   VARCHAR(255) DEFAULT NULL,
+
+    created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at              TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    estado                  TINYINT(1) NOT NULL DEFAULT 1,
+
+    CONSTRAINT uk_dni UNIQUE(id_hotel, dni),
+    CONSTRAINT ck_ubigeo CHECK (ubigeo REGEXP '^[0-9]{6}$')
 )ENGINE = INNODB;
 
 /* TABLA ROLES */

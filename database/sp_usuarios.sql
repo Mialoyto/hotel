@@ -59,5 +59,6 @@ BEGIN
     AND HOT.estado = 1;
 END;
 
+CALL `sp_get_usuarios_roles`(1);
 
 

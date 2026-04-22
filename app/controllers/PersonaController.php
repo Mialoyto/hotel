@@ -30,7 +30,7 @@ class PersonaController extends Controller
     if (session_status() === PHP_SESSION_NONE) {
       session_start();
     }
-  // Preparar respuesta JSON
+    // Preparar respuesta JSON
     $json = [
       "status" => false,
       "message" => "",
@@ -43,7 +43,7 @@ class PersonaController extends Controller
       // 1. Obtener datos JSON del cuerpo de la solicitud
       $data = $this->getJsonInput();
 
-      if(!$data){
+      if (!$data) {
         http_response_code(400);
         $json['message'] = "No se recibieron datos JSON válidos";
         echo json_encode($json);
@@ -51,16 +51,19 @@ class PersonaController extends Controller
       }
 
       // 2. Extraer parametros del json
-      $dni = $data['dni'] ?? null;
-      $nombres = $data['nombres'] ?? null;
-      $apellido_paterno = $data['apellido_paterno'] ?? null;
-      $apellido_materno = $data['apellido_materno'] ?? null;
-      $telefono = $data['telefono'] ?? null;
-      $email = $data['email'] ?? null;
+      $dni = $this->limpiarVacios($data['dni']);
+      $nombres = $this->limpiarVacios($data['nombres']);
+      $apellido_paterno = $this->limpiarVacios($data['apellido_paterno']);
+      $apellido_materno = $this->limpiarVacios($data['apellido_materno']);
+      $ubigeo = $this->limpiarVacios($data['ubigeo']);
+      $fecha_nacimiento = $data['fecha_nacimiento']; // No se aplica limpiarVacios a fechas
+      $direccion = $this->limpiarVacios($data['direccion']) ?? null;
+      $telefono = $this->limpiarVacios($data['telefono']) ?? null;
+      $email = $this->limpiarVacios($data['email']) ?? null;
 
       // 3. Validar datos de la persona
-      $validationResult = $this->validatePersonData($dni, $nombres, $apellido_paterno, $apellido_materno);
-      
+      $validationResult = $this->validatePersonData($dni, $nombres, $apellido_paterno, $apellido_materno, $ubigeo, $fecha_nacimiento);
+
       if (!$validationResult['status']) {
         http_response_code(400);
         echo json_encode($validationResult);
@@ -68,19 +71,23 @@ class PersonaController extends Controller
       }
 
       // 4. Preparar datos para registrar persona
-       $personData = [
+      $personData = [
+        'id_hotel' => $_SESSION['user']['id_hotel'], // Agregar el id_hotel desde la sesión
         'dni' => trim(string: $dni),
-        'nombres' =>trim($nombres),
+        'nombres' => trim($nombres),
         'apellido_paterno' => trim($apellido_paterno),
         'apellido_materno' => trim($apellido_materno),
+        'fecha_nacimiento' => $fecha_nacimiento, // No se aplica trim a fechas
+        'ubigeo' => trim($ubigeo),
+        'direccion' => trim($direccion),
         'telefono' => trim($telefono),
-        'email' => trim($email)
+        'email' => trim($email),
       ];
 
       // 5. Registrar persona usando el modelo
-       $result = $this->personModel->addPerson($personData);
+      $result = $this->personModel->addPerson($personData);
 
-      if($result['status']){
+      if ($result['status']) {
         http_response_code(200);
         $json['status'] = true;
         $json['message'] = $result['message'];
@@ -93,8 +100,6 @@ class PersonaController extends Controller
       }
 
       echo json_encode($json);
-
-
     } catch (Exception $e) {
       http_response_code(500);
       $json['status'] = false;
@@ -116,25 +121,61 @@ class PersonaController extends Controller
   /**
    * Verificar que se hayan recibido los campos requeridos
    */
-  public function hasRequiredData($dni, $nombres, $apellido_paterno, $apellido_materno): bool
-  {
-    return !empty($dni) && !empty($nombres) && !empty($apellido_paterno) && !empty($apellido_materno);
-  }
-
-  /**
-   * Validar datos de la persona
-   */
-  public function validatePersonData($dni, $nombres, $apellido_paterno, $apellido_materno)
+  public function hasRequiredData($dni, $nombres, $apellido_paterno, $apellido_materno, $ubigeo, $fecha_nacimiento)
   {
     $json = [
       "status" => false,
       "message" => "",
     ];
-    $requireData = $this->hasRequiredData($dni, $nombres, $apellido_paterno, $apellido_materno);
+
+    if (empty($dni)) {
+      $json['message'] = "El campo DNI es obligatorio";
+      return $json;
+    }
+    if (empty($nombres)) {
+      $json['message'] = "El campo Nombres es obligatorio";
+      return $json;
+    }
+    if (empty($apellido_paterno)) {
+      $json['message'] = "El campo Apellido Paterno es obligatorio";
+      return $json;
+    }
+    if (empty($apellido_materno)) {
+      $json['message'] = "El campo Apellido Materno es obligatorio";
+      return $json;
+    }
+    if (empty($ubigeo)) {
+      $json['message'] = "El campo Ubigeo es obligatorio";
+      return $json;
+    }
+    if (empty($fecha_nacimiento)) {
+      $json['message'] = "El campo Fecha de Nacimiento es obligatorio";
+      return $json;
+    }
+    
+    $validateDate = $this->validateDate($fecha_nacimiento);
+    if(!$validateDate['status']){
+      $json['message'] = $validateDate['message'];
+      return $json;
+    }
+    $json['status'] = true;
+    return $json;
+  }
+
+  /**
+   * Validar datos de la persona
+   */
+  public function validatePersonData($dni, $nombres, $apellido_paterno, $apellido_materno, $ubigeo, $fecha_nacimiento)
+  {
+    $json = [
+      "status" => false,
+      "message" => "",
+    ];
+    $requireData = $this->hasRequiredData($dni, $nombres, $apellido_paterno, $apellido_materno, $ubigeo, $fecha_nacimiento);
     // valia que se hayan recibido los campos requeridos
-    if (!$requireData) {
+    if (!$requireData['status']) {
       http_response_code(400);
-      $json['message'] = "Faltan campos requeridos: dni, nombres, apellido_paterno, apellido_materno";
+      $json['message'] = $requireData['message'];
       return $json;
     }
     // validar formato del DNI (solo números y longitud 8)
@@ -148,5 +189,41 @@ class PersonaController extends Controller
     $json['message'] = "Validacion exitosa";
 
     return $json;
+  }
+
+  /**
+   * Limpiar datos vacíos convirtiéndolos a null
+   */
+  public function limpiarVacios($valor)
+  {
+    return $valor === "" ? null : $valor;
+  }
+
+  public function validateDate($fecha)
+  {
+    $json = [
+      "status" => false,
+      "message" => "",
+    ];
+
+    try{
+      $fechaIngresada = new DateTime($fecha);
+      $fechaIngresada->setTime(0, 0, 0); // Establecer la hora a 00:00:00 para comparar solo fechas
+      
+      $fechaActual = new DateTime();
+      $fechaActual->setTime(0, 0, 0); // Establecer la hora a 00:00:00 para comparar solo fechas
+
+      if ($fechaIngresada > $fechaActual) {
+        $json['message'] = "La fecha de nacimiento no puede ser mayor a la fecha actual";
+        return $json;
+      }
+      $json['status'] = true;
+      $json['message'] = "Fecha de nacimiento válida";
+      return $json;
+
+    } catch (Exception $e){
+      $json['message'] = "Error al procesar la fecha: " . $e->getMessage();
+      return $json;
+    }
   }
 }

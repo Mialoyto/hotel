@@ -2,10 +2,11 @@
 USE `db_hotel`;
 
 /* Consultas para la base de datos db_hotel */
-SELECT * FROM usuarios;
+SELECT * FROM usuarios WHERE id_hotel = 1;
 SELECT * FROM personas;
+select * from hoteles;
 -- 
-SELECT * FROM usuarios_roles;
+SELECT * FROM roles;
 
 SELECT * FROM usuarios_roles;
 
@@ -18,4 +19,4 @@ CALL sp_usuario_login('juan_administrador1');
 
 CALL sp_get_usuarios_roles(1);
 
-CALL sp_insertar_persona('Miguel', 'Loyola', 'Torres', '26558002', '', '');
+CALL sp_insertar_persona(1,'Miguel', 'Loyola', 'Torres', '26558002', '2025-01-01', '110205', 'Av. Principal 123', '987654321', 'miguel.loyola@example.com');

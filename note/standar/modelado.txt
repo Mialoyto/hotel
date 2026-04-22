@@ -1,0 +1,716 @@
+Table tipo_plan {
+  id_plan int [pk]
+
+  nombre_plan varchar(255)
+  descripcion varchar(255)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (nombre_plan) [unique]
+  }
+}
+
+Table cargos{
+  id_cargo int [pk]
+  id_hotel int 
+  nombre varchar(255)
+  descripcion varchar(255)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_hotel,nombre) [unique]
+  }
+}
+// METODOS DE PAGO: Yape, Plin, Efectivo, etc
+Table metodos_de_pago{
+  id_metodo_pago int [pk]
+  metodo_pago varchar(255)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+}
+
+Table personas {
+  id_persona int [pk]
+  nombres varchar
+  apellido_paterno varchar
+  apellido_materno varchar
+  dni varchar(8) [unique]
+  ubigeo char(6)
+  direccion text
+  nro_telefono varchar(15)
+  email varchar(255)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+}
+
+Table hoteles {
+  id_hotel int [pk]
+  id_plan int
+  nombre_comercial varchar(255)
+  razon_social varchar(255)
+  ruc varchar(11) [unique]
+  num_habitaciones tinyint
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+}
+
+Table persona_hotel{
+  id_persona_hotel int [pk]
+  id_persona  int
+  id_hotel int 
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+  
+  indexes {
+    (id_persona,id_hotel) [unique]
+  }
+}
+
+Table hotel_metodos{
+  id_hotel_metodo_pago int [pk]
+  id_hotel  int
+  id_metodo_pago int
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_hotel, id_metodo_pago) [unique]
+  }
+}
+
+Table roles {
+  id_rol int [pk]
+  id_hotel int 
+  nombre_rol varchar 
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_hotel,nombre_rol) [unique]
+  }
+}
+
+table empleados {
+  id_empleado int [pk]
+  id_persona int
+  id_hotel int 
+  id_cargo int
+  sueldo decimal(10,2)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_persona,id_hotel) [unique]
+  }
+}
+
+Table usuarios {
+  id_usuario int [pk]
+  id_empleado int 
+  usuario  varchar(150) 
+  contraseña varchar(255)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_empleado,usuario) [unique]
+  }
+}
+
+Table clientes {
+  id_cliente int [pk]
+  id_persona int [unique]
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+}
+
+Table permisos{
+  id_permiso int [pk]
+  nombre varchar(255)
+  descripcion varchar(255)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+}
+
+Table hotel_cliente{
+  id_hotel_cliente int [pk]
+  id_hotel int
+  id_cliente int
+
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_hotel,id_cliente) [unique]
+  }
+}
+
+Table roles_permisos{
+  id_rol_permiso int [pk]
+  id_permiso int
+  id_rol int
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_permiso, id_rol) [unique]
+  }
+}
+
+// Esta tabla permitira que usuarios puedan 
+// tener más de un rol
+Table rol_usuario{
+  id_rol_user int [pk]
+  id_usuario int
+  id_rol int
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_usuario,id_rol) [unique]
+  }
+}
+
+// TIPO DE HABITACIONES CREADA POR CADA HOTEL
+Table tipo_habitacion{
+  id_tipo_habitacion int [pk]
+  id_hotel int 
+
+  nombre varchar(255)
+  descripcion varchar(255)
+  capacidad tinyint
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_hotel, nombre) [unique]
+  }
+}
+
+// ESTADOS DE HABITACION
+Table estado_habitacion{
+  id_estado_habitacion int [pk]
+  id_hotel int
+
+  nombre varchar(25)
+  descripcion varchar(255)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_hotel,nombre) [unique]
+  }
+}
+
+
+Table habitaciones {
+  id_habitacion int [pk]
+  id_hotel int
+  id_tipo_habitacion int
+  id_estado_habitacion int
+
+  numero varchar(10)
+  piso tinyint
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+  
+  indexes {
+    (id_hotel, numero) [unique]
+  }
+}
+
+Table tipo_tarifa{
+  id_tipo_tarifa int [pk]
+  id_hotel int
+
+  nombre varchar(255) // hora, noche, dia, etc
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_hotel,nombre) [unique]
+  }
+}
+
+Table tarifas {
+  id_tarifa int [pk]
+
+  id_hotel int
+  id_tipo_habitacion int
+  id_tipo_tarifa int
+
+  nombre varchar(255)
+  duracion int 
+  precio decimal(10,2)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_hotel,id_tipo_habitacion,id_tipo_tarifa,duracion) 
+    [unique]
+  }
+}
+
+// HISTORIAL TARIFAS
+Table historial_tarifas{
+  id_historial int [pk]
+
+  id_tarifa int
+
+  precio decimal (10,2)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+}
+
+
+//RESERVAS TABLA TRANSACCIONAL
+Table reservas {
+  id_reserva int [pk]
+
+  id_hotel int
+  id_usuario int
+  id_habitacion int
+  id_cliente int
+  id_tarifa int
+
+  fecha_inicio datetime
+  fecha_fin datetime
+  precio_base decimal(10,2)
+  precio_consumo decimal (10,2)
+  precio_total decimal(10,2)
+  estado_reserva varchar(30) // reservado,ocupado,finalizado,cancelado
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+}
+
+
+// PAGOS
+Table pagos {
+  id_pago int [pk]
+
+  id_hotel int
+  id_hotel_metodo_pago int
+  id_reserva int
+
+  monto decimal(10,2)
+  fecha_pago datetime
+  estado_pago varchar(25) //pendiente, pagado, anulado
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+}
+
+//CATEGORIA DE PRODUCTOS
+Table categoria_productos{
+  id_categoria int [pk]
+  nombre varchar(255) [unique]
+  descripcion varchar(255)
+  created_by int // proximamente para auditoria
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+}
+
+// PRODUCTOS
+Table productos{
+  id_producto int [pk,unique]
+
+  id_hotel int
+  id_categoria int
+
+  nombre varchar(255)
+  precio_costo decimal(10,2)
+  precio_venta decimal(10,2)
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_hotel,nombre) [unique]
+  }
+}
+
+// ALMACÉN
+Table almacen {
+  id_almacen int [pk]
+
+  id_hotel int
+
+  nombre varchar (255) //principal,bar,cocina,etc
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_hotel,nombre) [unique]
+  }
+}
+
+// STOCK POR PRODUCTO
+Table stock_productos{
+  id_stock int [pk]
+
+  id_almacen int
+  id_producto int
+  id_hotel int
+
+  cantidad int
+  stock_minimo int
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_almacen,id_producto) [unique]
+  }
+}
+
+// MOVIMIENTO DE INVENTARIO
+Table movimiento_inventario{
+  id_movimiento int [pk]
+
+  id_hotel int
+  id_almacen int
+  id_producto int
+
+  tipo varchar(150) //(entrada/salida)
+  motivo varchar(150) //(compra,consumo.ajuste)
+  costo_unitario decimal (10,2)
+  cantidad int
+  total decimal (10,2)
+ 
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+
+  indexes {
+    (id_producto, id_almacen)
+  }
+}
+
+// CONSUMOS
+Table consumos {
+  id_consumo int [pk]
+
+  id_hotel int
+  id_usuario int
+  id_reserva int
+  id_producto int
+  
+  cantidad tinyint
+  precio_unitario decimal(10,2)
+  total decimal(10,2)
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+}
+
+
+// CAJA (dinero en tiempo real)
+Table cajas {
+  id_caja int [pk]
+
+  id_hotel int
+  id_usuario int
+
+  // turno varchar(100) //proximamente mañana,tarde,noche
+  fecha_apertura datetime
+  fecha_cierre datetime
+  monto_apertura decimal(10,2) // monto inicial (efectivo)
+  monto_cierre_real decimal(10,2) // dinero contado fisicamente
+  diferencia decimal(10,2) // si es que caja no cuadra
+  estado_caja varchar(25) //abierto, cerrada
+
+  created_at datetime
+  updated_at datetime
+  estado char(1) 
+}
+
+// MOVIMIENTOS DE CAJA (LEDGER)
+Table movimientos_caja {
+  id_movimiento_caja int [pk]
+
+  id_hotel int
+  id_caja int
+  id_usuario int 
+  id_hotel_metodo_pago int
+
+  tipo_movimiento varchar(25) //ingreso, egreso
+  monto decimal(10,2)
+
+  id_pago int
+  id_consumo int
+  id_reserva int 
+  id_gasto int
+
+  descripcion varchar(255)
+  estado_movimiento_caja varchar(100) // activo, anulado
+
+  created_at datetime
+
+  indexes {
+    (id_caja, created_at)
+  }
+}
+
+// GASTOS
+Table gastos {
+  id_gasto int [pk]
+
+  id_hotel int
+  id_usuario int
+
+  descripcion varchar(255)
+  monto decimal(10,2)
+  categoria varchar(100) // limpieza, mantenimiento, compra, etc
+  fecha datetime
+
+  created_at datetime
+  updated_at datetime
+  estado char(1)
+}
+
+
+
+// CIERRE DIARIO
+Table cierre_diario {
+  id_cierre_diario int [pk]
+  
+  id_hotel int
+  id_caja int
+  usuario_cierre int
+
+  fecha_cierre datetime
+  total_ingreso decimal(10,2)
+  total_egresos decimal(10,2)
+  saldo decimal (10,2)
+  estado_cierre varchar(150) // abierto, cerrado, auditado
+
+  created_at datetime
+  updated_at datetime
+}
+
+// DETALLE CIERRE DE CAJA
+Table cierre_caja_detalle {
+  id_cierre_caja_detalle int [pk]
+
+  id_caja int 
+  id_cierre_diario int
+  id_hotel int
+  id_hotel_metodo_pago int
+
+  monto_sistema decimal(10,2)
+  monto_real decimal(10,2)
+  diferencia decimal(10,2)
+  cantidad_movimientos int
+
+  created_at datetime
+  updated_at datetime
+}
+
+
+
+// RELACION DE LA TABLA EMPLEADOS
+// relacion 1:N entre personas y empleados
+ref: empleados.id_persona > personas.id_persona 
+
+
+// RELACIÓN DE LA TABLA USUARIOS
+// relacion 1:1 empleados - usuarios
+ref: empleados.id_empleado - usuarios.id_empleado 
+//relacion de N:M roles y usuarios
+ref: rol_usuario.id_rol > roles.id_rol
+ref: rol_usuario.id_usuario > usuarios.id_usuario
+
+
+// RELACIÓN DE HOTELES Y PERSONAS
+// Relacion M:N
+ref: hoteles.id_hotel < persona_hotel.id_hotel
+ref: personas.id_persona < persona_hotel.id_persona
+
+
+// RELACION DE CLIENTES
+// Relacion 1:1
+ref: personas.id_persona - clientes.id_persona
+
+// RELACIÓN DE METODOS DE PAGO
+// Relacion N:M metodos de pago y hoteles
+ref: hotel_metodos.id_metodo_pago > metodos_de_pago.id_metodo_pago
+ref: hotel_metodos.id_hotel > hoteles.id_hotel
+
+
+// relacion 1:N de roles y hoteles
+ref: roles.id_hotel > hoteles.id_hotel
+
+
+// relacion 1:N de tipo_plan y hoteles
+ref: hoteles.id_plan > tipo_plan.id_plan
+
+//RELACION DE EMPLEADOS
+// relacion 1:N de hoteles y empleados
+ref: empleados.id_hotel > hoteles.id_hotel 
+
+//RELACION DE HOTELES Y CLIENTES
+// Relacion de N:M
+ref:hotel_cliente.id_hotel > hoteles.id_hotel
+ref:hotel_cliente.id_cliente > clientes.id_cliente
+
+//RELACION DE PERMISOS Y ROLES
+ref: roles_permisos.id_rol > roles.id_rol
+ref: roles_permisos.id_permiso > permisos.id_permiso
+
+
+//RELACION DE CARGOS
+// Relacion de 1:N
+ref: cargos.id_hotel > hoteles.id_hotel
+ref: empleados.id_cargo > cargos.id_cargo
+
+
+//RELACION DE ESTADO HABITACIONES
+ref: estado_habitacion.id_hotel > hoteles.id_hotel
+ref: habitaciones.id_estado_habitacion > estado_habitacion.id_estado_habitacion
+
+
+// RELACION TIPO HABITACION
+ref: tipo_habitacion.id_hotel > hoteles.id_hotel
+ref: habitaciones.id_tipo_habitacion > tipo_habitacion.id_tipo_habitacion
+
+
+// RELACIONDE HABITACIONES
+ref: habitaciones.id_hotel > hoteles.id_hotel
+
+
+// TIPO TARIFA
+ref: tipo_tarifa.id_hotel > hoteles.id_hotel
+
+
+// TARIFAS
+ref: tarifas.id_hotel > hoteles.id_hotel
+ref: tarifas.id_tipo_tarifa > tipo_tarifa.id_tipo_tarifa
+ref: tarifas.id_tipo_habitacion > tipo_habitacion.id_tipo_habitacion
+
+
+// RESERVAS
+ref: reservas.id_cliente > clientes.id_cliente
+ref: reservas.id_habitacion > habitaciones.id_habitacion
+ref: reservas.id_tarifa > tarifas.id_tarifa
+ref: reservas.id_hotel > hoteles.id_hotel
+ref: reservas.id_usuario > usuarios.id_usuario
+
+
+//PAGOS
+ref: pagos.id_reserva > reservas.id_reserva
+ref: pagos.id_hotel_metodo_pago > hotel_metodos.id_hotel_metodo_pago
+ref: pagos.id_hotel > hoteles.id_hotel
+
+
+//STOCK PRODUCTOS
+ref:stock_productos.id_almacen > almacen.id_almacen
+ref: stock_productos.id_producto > productos.id_producto
+ref: stock_productos.id_hotel > hoteles.id_hotel
+
+// ALMACEN 
+ref: almacen.id_hotel > hoteles.id_hotel
+
+// PRODUCTOS
+ref: productos.id_hotel > hoteles.id_hotel
+ref: productos.id_categoria > categoria_productos.id_categoria
+
+// MOVIMIENTO INVENTARIO 
+ref: movimiento_inventario.id_almacen > almacen.id_almacen
+ref: movimiento_inventario.id_producto > productos.id_producto
+ref: movimiento_inventario.id_hotel > hoteles.id_hotel
+
+// CONSUMOS
+ref: consumos.id_hotel > hoteles.id_hotel
+ref: consumos.id_reserva > reservas.id_reserva
+ref: consumos.id_producto > productos.id_producto
+ref: consumos.id_usuario > usuarios.id_usuario
+
+// CAJAS
+ref: cajas.id_hotel > hoteles.id_hotel
+ref: cajas.id_usuario > usuarios.id_usuario
+
+// MOVIMIENTO CAJA
+ref: movimientos_caja.id_caja > cajas.id_caja
+ref: movimientos_caja.id_hotel > hoteles.id_hotel
+ref: movimientos_caja.id_usuario > usuarios.id_usuario
+ref: movimientos_caja.id_hotel_metodo_pago > hotel_metodos.id_hotel_metodo_pago
+
+ref: movimientos_caja.id_gasto > gastos.id_gasto
+ref: movimientos_caja.id_pago > pagos.id_pago
+ref: movimientos_caja.id_consumo > consumos.id_consumo
+ref: movimientos_caja.id_reserva > reservas.id_reserva
+
+// HISTORIAL DE TARIFAS 
+ref: historial_tarifas.id_tarifa > tarifas.id_tarifa
+
+// GASTOS
+ref: gastos.id_hotel > hoteles.id_hotel
+ref: gastos.id_usuario > usuarios.id_usuario
+
+
+// CIERRE CAJA DETALLE
+ref: cierre_caja_detalle.id_cierre_diario > cierre_diario.id_cierre_diario
+ref: cierre_caja_detalle.id_caja > cajas.id_caja
+ref: cierre_caja_detalle.id_hotel_metodo_pago > hotel_metodos.id_hotel_metodo_pago
+ref: cierre_caja_detalle.id_hotel > hoteles.id_hotel
+
+
+// CIERRE DIARIO
+ref: cierre_diario.id_hotel > hoteles.id_hotel
+ref: cierre_diario.id_caja > cajas.id_caja
+ref: cierre_diario.usuario_cierre > usuarios.id_usuario
+
+

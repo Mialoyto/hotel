@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputTelefono = document.getElementById("telefono");
   const inputEmail = document.getElementById("correo");
   const inputFechaNacimiento = document.getElementById("fechaNacimiento");
+  let ubigeoData = null;
 
   if (!btnBuscarDni || !inputDni) {
     console.warn("No se encontró el botón o el input de DNI.");
@@ -44,9 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
       const data = await response.json();
+      console.log("Respuesta del servidor al consultar DNI:", data);
 
       if (data.success !== false) {
-        const ubigeo = String(data.data.ubigeo_sunat ?? "").trim();
+        const ubigeo = String(data.data.ubigeo_reniec ?? "").trim();
 
         if (ubigeo && validateUbigeo(ubigeo)) {
           const responseApi = getUbigeoData(ubigeo);
@@ -60,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
           inputAppPat.value = data.data.apellido_paterno;
           inputAppMat.value = data.data.apellido_materno;
           inputDireccion.value = data.data.direccion;
-          console.log("Ubigeo:", ubigeo);
+          ubigeoData = ubigeo; // Guardar el ubigeo para usarlo al registrar la persona
           console.log("Datos de ubigeo:", responseApi);
           console.log("datos del api DNI :", data);
           console.log("datos parseados del api DNI :", responseParseUbigeo);
@@ -94,21 +96,45 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   async function addPersona() {
-    const dni = inputDni.value.trim();
     const nombres = inputName.value.trim();
     const apellidoPaterno = inputAppPat.value.trim();
     const apellidoMaterno = inputAppMat.value.trim();
+    const dni = inputDni.value.trim();
+    const ubigeo = ubigeoData; // Usar el ubigeo obtenido al consultar el DNI
+    const direccion = inputDireccion.value.trim();
     const telefono = inputTelefono.value.trim();
     const email = inputEmail.value.trim();
+    const fecha_nacimiento = inputFechaNacimiento.value
+    console.log("Datos para registrar persona:", {
+      nombres,
+      apellidoPaterno,
+      apellidoMaterno,
+      dni,
+      ubigeo,
+      direccion,
+      telefono,
+      email,
+      fecha_nacimiento
+    });
 
-    if (!dni || !nombres || !apellidoPaterno || !apellidoMaterno) {
+    if (!dni || !nombres || !apellidoPaterno || !apellidoMaterno || !ubigeo) {
       showAlert(
         "Primero completa el DNI y consulta los datos para llenar nombres y apellidos.",
         "error"
       );
       return;
     }
-
+    const dataPerson = {
+      nombres: limpiarVacios(nombres),
+      apellido_paterno: limpiarVacios(apellidoPaterno),
+      apellido_materno: limpiarVacios(apellidoMaterno),
+      dni: limpiarVacios(dni),
+      fecha_nacimiento: fecha_nacimiento,
+      ubigeo: limpiarVacios(ubigeo),
+      direccion: limpiarVacios(direccion),
+      telefono: limpiarVacios(telefono),
+      email: limpiarVacios(email)
+    };
     try {
       const response = await fetch(`/hotel/public/persona/registrar`, {
         method: "POST",
@@ -116,14 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({
-          dni,
-          nombres,
-          apellido_paterno: apellidoPaterno,
-          apellido_materno: apellidoMaterno,
-          telefono,
-          email,
-        }),
+        body: JSON.stringify(dataPerson),
       });
 
       console.log(
@@ -146,6 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
         inputDireccion.value = "";
         inputTelefono.value = "";
         inputEmail.value = "";
+        inputFechaNacimiento.value = "";
       } else {
         showAlert(data.message || "No se pudo registrar la persona.", "error");
       }
@@ -159,4 +179,8 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     addPersona();
   });
+
+  function limpiarVacios(valor){
+    return valor === "" ? null : valor;
+  }
 });
